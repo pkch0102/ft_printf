@@ -1,4 +1,3 @@
-/*
 NAME	= libft.a
 
 SRCS	= ./ft_putchar.c \
@@ -52,4 +51,3 @@ fclean : clean
 	$(RM) $(NAME) $(bonus)
 
 re : fclean all
-*/
