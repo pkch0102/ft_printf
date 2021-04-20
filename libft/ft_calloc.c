@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   min.c                                              :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: daelee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:52:15 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:52:15 by kicpark          ###   ########.fr       */
+/*   Created: 2020/03/01 21:04:45 by daelee            #+#    #+#             */
+/*   Updated: 2020/04/08 19:35:11 by daelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	min(int a, int b)
+void		*ft_calloc(size_t nmemb, size_t size)
 {
-	if (a > b)
-		return (b);
-	else
-		return (a);
+	void	*mem;
+
+	if (!(mem = malloc(nmemb * size)))
+		return (NULL);
+	ft_bzero(mem, (nmemb * size));
+	return (mem);
 }

@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_itoa_base_width.c                              :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: daelee <daelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:44:44 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:44:44 by kicpark          ###   ########.fr       */
+/*   Created: 2020/03/06 16:05:18 by daelee            #+#    #+#             */
+/*   Updated: 2020/08/31 22:46:25 by daelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		get_itoa_base_width(long n, long size)
+int		ft_putstr(char *s)
 {
-	int			i;
-	long long	long_n;
+	int i;
 
-	i = n < 1 ? 1 : 0;
-	n = n < 0 ? -n : n;
-	long_n = n < 0 ? -(long long)n : (long long)n;
-	while (long_n != 0)
+	i = 0;
+	while (s[i])
 	{
-		long_n = long_n / size;
+		write(1, &s[i], 1);
 		i++;
 	}
 	return (i);
 }
-
-/*
-** get return value except '-' sign to meet 'prcs' requiremnet
-*/

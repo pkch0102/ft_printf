@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: daelee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:44:24 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:44:24 by kicpark          ###   ########.fr       */
+/*   Created: 2020/03/08 12:51:02 by daelee            #+#    #+#             */
+/*   Updated: 2020/04/09 10:50:54 by daelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dest, char *src, unsigned int n)
+int		ft_lstsize(t_list *lst)
 {
-	unsigned int	i;
-	char			*res;
+	int	size;
 
-	i = 0;
-	while (i < n)
+	size = 0;
+	while (lst != NULL)
 	{
-		if (src[i] != '\0')
-		{
-			dest[i] = src[i];
-			i++;
-		}
-		else
-		{
-			while (i < n)
-			{
-				dest[i] = '\0';
-				i++;
-			}
-		}
+		lst = lst->next;
+		size++;
 	}
-	res = dest;
-	return (res);
+	return (size);
 }

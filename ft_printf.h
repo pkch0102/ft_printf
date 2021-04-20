@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: daelee <daelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:45:53 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:45:53 by kicpark          ###   ########.fr       */
+/*   Created: 2020/03/29 20:23:51 by daelee            #+#    #+#             */
+/*   Updated: 2020/09/09 21:05:28 by daelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,89 +14,58 @@
 # define FT_PRINTF_H
 
 # include <stdarg.h>
-# include <stdlib.h>
 # include <unistd.h>
-# include <limits.h>
-# include <wchar.h>
-# include "libft/libft.h"
+# include <stdlib.h>
+# include "./libft/libft.h"
+# include <stdio.h>
 
-# define FLAG "-+ 0#"
-# define LEN_MODIFIER "hl"
-# define CONVERSION "cspdiuxXn%"
+# define TYPE "csdiupxX%"
 
-# define DIGIT "0123456789"
-# define HEX_LOW "0123456789abcdef"
-# define HEX_UP "0123456789ABCDEF"
-
-# define H_ENABLED 2
-# define H_DISABLED 0
-# define ENABLED 1
-# define DISABLED -1
-# define ERROR -1
-# define UNDEFINED_BEHAVIOR -1
-# define EQUAL 0
-# define SKIP 0
-
-typedef struct	s_tag
+typedef struct	s_info
 {
-	int		nbyte;
-	int		left_aligned;
-	int		width;
-	int		prcs;
-	int		zero_fill;
-	int		plus;
-	int		space;
-	int		hexa;
-	int		len_mod;
-	char	padding;
-	char	sign;
-}				t_tag;
-
-typedef struct	s_box
-{
-	char *prcs;
-	char *width;
-}				t_box;
+	int			minus;
+	int			zero;
+	int			width;
+	int			prec;
+	char		type;
+	int			nbr_base;
+	int			nbr_sign;
+}				t_info;
 
 /*
 *****************************   MAIN FUNCTION   *******************************
 */
 
 int				ft_printf(const char *format, ...);
-int				parse_symbols(char **form, va_list ap, t_tag *tag);
+int				parse_format(va_list ap, char *format);
+void			check_info(va_list ap, char *format, t_info *info, int i);
+void			check_width_and_prec(va_list ap,
+		char *format, t_info *info, int i);
+int				print_type(va_list ap, t_info *info);
 
 /*
-*****************************   WRITE ON CONDITION   ***********************
+*****************************   PRINT FUNCTION   *******************************
 */
 
-int				pre_process_char(va_list ap, t_tag *tag);
-int				pre_process_string(va_list ap, t_tag *tag);
-int				pre_process_int(va_list ap, t_tag *tag);
-int				pre_process_unsigned_int(va_list ap, t_tag *tag);
-int				pre_process_hexa(va_list ap, t_tag *tag, char *base, char conv);
+int				print_char(int c, t_info *info);
+int				put_width(int width, int len, int zero);
 
-int				print_char(t_tag *tag, char c);
-int				print_string(t_tag *tag, char *res);
-int				print_int(t_tag *tag, char *res);
-int				print_unsigned_int(t_tag *tag, char *res);
-int				print_hexa(t_tag *tag, char *res, char conv);
-int				print_pointer(va_list ap, t_tag *tag);
-int				print_percent(t_tag *tag);
-int				store_nbyte(va_list ap, t_tag *tag);
+int				print_string(char *str, t_info *info);
+char			*parse_buf(char *str, int end, int len);
+int				put_width_str(char **buf, t_info *info);
+
+int				print_nbr(unsigned long long nbr, t_info *info);
+int				put_prec_str(unsigned long long nbr, t_info *info, char **buf);
+int				put_minus(t_info *info, char **buf);
+int				put_minus2(int buf_len, t_info *info, char **buf);
+int				put_pointer_prefix(char **buf);
 
 /*
-*****************************   MANAGE BOX   ***********************************
+*****************************   UTILS FUNCTION   *******************************
 */
 
-t_box			*prepare_box(void);
-char			*fill_box(int size, char tag_padding);
-void			free_box(t_box *box);
-
-/*
-*****************************   MANAGE SIGN   **********************************
-*/
-
-char			*prepare_sign(t_tag *tag, char *s);
-char			*process_sign(t_tag *tag, char *box, int s_len);
+void			init_info(t_info *info);
+int				ft_nbrlen(unsigned long long nbr, t_info *info);
+char			*ft_baseset(char type);
 
 #endif

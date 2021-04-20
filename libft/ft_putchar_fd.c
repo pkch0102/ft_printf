@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: daelee <daelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:44:27 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:44:27 by kicpark          ###   ########.fr       */
+/*   Created: 2020/03/05 22:53:12 by daelee            #+#    #+#             */
+/*   Updated: 2020/07/02 10:43:39 by daelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strndup(const char *s1, int size)
+int		ft_putchar(char c)
 {
-	char	*dup;
-	int		i;
-
-	dup = (char *)malloc(sizeof(char) * (size + 1));
-	if (dup == 0)
-		return (0);
-	i = 0;
-	while (i < size)
-	{
-		dup[i] = s1[i];
-		i++;
-	}
-	dup[size] = 0;
-	return (dup);
+	return (write(1, &c, 1));
 }

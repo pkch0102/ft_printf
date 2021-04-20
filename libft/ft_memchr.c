@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strstrhr.c                                      :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: daelee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:44:30 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:44:30 by kicpark          ###   ########.fr       */
+/*   Created: 2020/02/28 13:36:53 by daelee            #+#    #+#             */
+/*   Updated: 2020/04/09 17:26:59 by daelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strstrhr(const char *s, char *set)
+void	*ft_memchr(const void *b, int c, size_t n)
 {
-	int i;
-	int j;
-
-	if (s == 0)
-		return (0);
-	i = 0;
-	if (set == 0)
-		return ((char *)s + ft_strlen(s));
-	while (s[i])
+	while (n--)
 	{
-		j = 0;
-		while (set[j])
-		{
-			if (s[i] == set[j])
-				return ((char *)s + i);
-			j++;
-		}
-		i++;
+		if (*(unsigned char *)b == (unsigned char)c)
+			return ((void *)b);
+		b++;
 	}
 	return (0);
 }

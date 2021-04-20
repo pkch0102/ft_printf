@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_n.c                                     :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: daelee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:43:45 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:43:45 by kicpark          ###   ########.fr       */
+/*   Created: 2020/03/07 00:24:02 by daelee            #+#    #+#             */
+/*   Updated: 2020/04/09 10:50:30 by daelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_putchar_n(char c, int n)
+t_list		*ft_lstnew(void *content)
 {
-	int		i;
+	t_list	*new;
 
-	i = 0;
-	while (i < n)
-		i += ft_putchar(c);
-	return (n);
+	new = (t_list *)malloc(sizeof(t_list));
+	if (new == NULL)
+		return (NULL);
+	new->content = content;
+	new->next = NULL;
+	return (new);
 }

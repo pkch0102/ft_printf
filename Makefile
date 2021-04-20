@@ -1,23 +1,21 @@
-C = clang
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: daelee <daelee@student.42seoul.kr>         +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/03/29 20:23:48 by daelee            #+#    #+#              #
+#    Updated: 2020/09/06 12:18:49 by daelee           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 NAME		= libftprintf.a
 LIBFT		= libft
 LIBFT_LIB	= libft.a
 
-SRCS		= ./ft_printf.c \
-			  ./parse_all.c \
-			  ./pre_process.c \
-			  ./print_1_char.c \
-			  ./print_2_string.c \
-			  ./print_3_int.c \
-			  ./print_4_unsigned_int.c \
-			  ./print_5_hexa.c \
-			  ./print_6_pointer.c \
-			  ./print_7_percent.c \
-			  ./store_8_nbyte.c \
-			  ./manage_box.c \
-			  ./manage_int_sign.c
-
+SRCS		= ./ft_printf.c ./utils.c\
+			  ./print_char.c ./print_nbr.c ./print_string.c
 OBJS		= $(SRCS:.c=.o)
 INCS		= .
 RM			= rm -f
@@ -36,7 +34,7 @@ $(NAME) : $(OBJS)
 all : $(NAME)
 
 fclean : clean
-	$(RM) $(NAME) $(bonus)
+	$(RM) $(NAME)
 	make fclean -C $(LIBFT)
 
 clean :
@@ -44,7 +42,3 @@ clean :
 	make clean -C $(LIBFT)
 
 re : fclean all
-
-bonus : all
-
-.PHONY: all clean fclean re bonus .c.o

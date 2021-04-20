@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_set.c                                           :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: daelee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:44:53 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:44:53 by kicpark          ###   ########.fr       */
+/*   Created: 2020/03/01 16:21:46 by daelee            #+#    #+#             */
+/*   Updated: 2020/09/09 21:46:12 by daelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		is_set(char c, char *set)
+int		ft_isdigit(int c)
 {
-	int i;
-
-	i = 0;
-	while (set[i])
-	{
-		if (c == set[i])
-			return (1);
-		i++;
-	}
-	return (0);
+	return (c >= '0' && c <= '9');
 }

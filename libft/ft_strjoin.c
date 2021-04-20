@@ -3,36 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: daelee <daelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:44:17 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:44:17 by kicpark          ###   ########.fr       */
+/*   Created: 2020/03/02 21:05:35 by daelee            #+#    #+#             */
+/*   Updated: 2020/08/31 22:37:40 by daelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** - Allocates (with malloc) and returns a new string,
-**   which is the result of the concatenation of 's1' and 's2'.
-** - Returns the new string, or NULL if the allocation fails.
-*/
-
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2, int free_target)
 {
-	char	*new_s;
-	size_t	len1;
-	size_t	len2;
+	char	*result;
+	int		i;
+	int		j;
+	int		s1_len;
+	int		s2_len;
 
-	if (s1 == 0 && s2 == 0)
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	result = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
+	if (!result)
 		return (0);
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	new_s = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
-	if (new_s == 0)
-		return (0);
-	ft_memcpy(new_s, s1, len1);
-	ft_memcpy(new_s + len1, s2, len2);
-	new_s[len1 + len2] = 0;
-	return (new_s);
+	i = -1;
+	while (++i < s1_len)
+		result[i] = s1[i];
+	if (free_target == 1 || free_target == 3)
+		free(s1);
+	j = 0;
+	while (j < s2_len)
+		result[i++] = s2[j++];
+	if (free_target == 2 || free_target == 3)
+		free(s2);
+	result[i] = 0;
+	return (result);
 }

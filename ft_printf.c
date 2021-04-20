@@ -3,89 +3,111 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: kicpark <kicpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:45:36 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:45:36 by kicpark          ###   ########.fr       */
+/*   Created: 2020/03/29 20:23:54 by daelee            #+#    #+#             */
+/*   Updated: 2021/04/20 21:18:08 by kicpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	write_on_condition(char *form, va_list ap, t_tag *tag)
+int					print_type(va_list ap, t_info *info)
 {
-	if (*form == 'c')
-		return (pre_process_char(ap, tag));
-	else if (*form == 's')
-		return (pre_process_string(ap, tag));
-	else if (*form == 'd' || *form == 'i')
-		return (pre_process_int(ap, tag));
-	else if (*form == 'u')
-		return (pre_process_unsigned_int(ap, tag));
-	else if (*form == 'x')
-		return (pre_process_hexa(ap, tag, HEX_LOW, 'x'));
-	else if (*form == 'X')
-		return (pre_process_hexa(ap, tag, HEX_UP, 'X'));
-	else if (*form == 'p')
-		return (print_pointer(ap, tag));
-	else if (*form == '%')
-		return (print_percent(tag));
-	else if (*form == 'n')
-		return (store_nbyte(ap, tag));
-	else
-		return (ERROR);
+	int				ret;
+	char			type;
+
+	ret = 0;
+	type = info->type;
+	if (type == 'c')
+		ret = print_char(va_arg(ap, int), info);
+	else if (type == '%')
+		ret = print_char('%', info);
+	else if (type == 's')
+		ret = print_string(va_arg(ap, char *), info);
+	else if (type == 'd' || type == 'i')
+		ret = print_nbr(va_arg(ap, int), info);
+	else if (type == 'x' || type == 'X' || type == 'u')
+		ret = print_nbr(va_arg(ap, unsigned int), info);
+	else if (type == 'p')
+		ret = print_nbr(va_arg(ap, unsigned long long), info);
+	return (ret);
 }
 
-static void	prepare_new_tag(t_tag *tag)
+void				check_width_and_prec(va_list ap,
+		char *format, t_info *info, int i)
 {
-	tag->left_aligned = DISABLED;
-	tag->width = DISABLED;
-	tag->prcs = DISABLED;
-	tag->zero_fill = DISABLED;
-	tag->plus = DISABLED;
-	tag->space = DISABLED;
-	tag->hexa = H_DISABLED;
-	tag->len_mod = DISABLED;
-	tag->sign = '\0';
-	tag->padding = ' ';
-}
-
-static int	process_format(char *form, va_list ap)
-{
-	t_tag	tag;
-
-	tag.nbyte = 0;
-	if (form == 0)
-		return (ERROR);
-	while (*form)
+	if (ft_isdigit(format[i]))
 	{
-		while (*form != '%' && *form)
+		if (info->prec == -1)
+			info->width = info->width * 10 + format[i] - 48;
+		else
+			info->prec = info->prec * 10 + format[i] - 48;
+	}
+	else if (format[i] == '*')
+	{
+		if (info->prec == -1)
 		{
-			tag.nbyte += ft_putchar(*form);
-			form++;
+			info->width = va_arg(ap, int);
+			if (info->width < 0)
+			{
+				info->minus = 1;
+				info->width *= -1;
+			}
 		}
-		if (*form == '%')
+		else
+			info->prec = va_arg(ap, int);
+	}
+}
+
+void				check_info(va_list ap, char *format, t_info *info, int i)
+{
+	if (format[i] == '0' && info->width == 0 && info->prec == -1)
+		info->zero = 1;
+	else if (format[i] == '-')
+		info->minus = 1;
+	else if (format[i] == '.')
+		info->prec = 0;
+	else if (ft_isdigit(format[i]) || format[i] == '*')
+		check_width_and_prec(ap, format, info, i);
+}
+
+int					parse_format(va_list ap, char *format)
+{
+	int				i;
+	int				ret;
+	t_info			*info;
+
+	i = 0;
+	ret = 0;
+	if (!(info = malloc(sizeof(t_info) * 1)))
+		return (-1);
+	while (format[i] != '\0')
+	{
+		while (format[i] != '%' && format[i] != '\0')
+			ret += ft_putchar(format[i++]);
+		if (format[i] == '%')
 		{
-			form++;
-			prepare_new_tag(&tag);
-			if (parse_symbols(&form, ap, &tag) == ERROR)
-				return (ERROR);
-			if (write_on_condition(form, ap, &tag) == ERROR)
-				return (ERROR);
-			form++;
+			init_info(info);
+			while (format[++i] != '\0' && !(ft_strchr(TYPE, format[i])))
+				check_info(ap, format, info, i);
+			info->type = format[i++];
+			if ((info->minus == 1 || info->prec > -1) && info->type != '%')
+				info->zero = 0;
+			ret += print_type(ap, info);
 		}
 	}
-	return (tag.nbyte);
+	free(info);
+	return (ret);
 }
 
-int			ft_printf(const char *format, ...)
+int					ft_printf(const char *format, ...)
 {
-	va_list	ap;
-	int		nbyte;
+	int				res;
+	va_list			ap;
 
 	va_start(ap, format);
-	if ((nbyte = process_format((char *)format, ap)) == ERROR)
-		return (ERROR);
+	res = parse_format(ap, (char *)format);
 	va_end(ap);
-	return (nbyte);
+	return (res);
 }

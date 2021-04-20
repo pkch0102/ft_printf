@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_itoa_width.c                                   :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: daelee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:44:48 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:44:48 by kicpark          ###   ########.fr       */
+/*   Created: 2020/03/01 15:06:21 by daelee            #+#    #+#             */
+/*   Updated: 2020/09/09 21:45:50 by daelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		get_itoa_width(long n)
+int		ft_isalpha(int c)
 {
-	int		i;
-
-	i = n < 1 ? 1 : 0;
-	n = n < 0 ? -n : n;
-	while (n != 0)
-	{
-		n = n / 10;
-		i++;
-	}
-	return (i);
+	return (((65 <= c) && (90 >= c)) || ((97 <= c) && (122 >= c)));
 }
-
-/*
-** line 15 : change from 'int' to 'long' to pass test 640 with long numbers
-*/

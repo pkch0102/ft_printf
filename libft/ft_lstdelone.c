@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_atouni_width.c                                 :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kicpark <emmet.urssu@gmail.com>            +#+  +:+       +#+        */
+/*   By: daelee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 18:44:41 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/18 18:44:41 by kicpark          ###   ########.fr       */
+/*   Created: 2020/03/08 22:51:18 by daelee            #+#    #+#             */
+/*   Updated: 2020/04/09 10:26:02 by daelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	get_atouni_width(wchar_t wc)
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	if (wc < 0x80)
-		return (1);
-	else if (wc < 0x800)
-		return (2);
-	else if (wc < 0x10000)
-		return (3);
-	else
-		return (4);
+	if (lst == NULL || del == NULL)
+		return ;
+	del(lst->content);
+	free(lst);
 }
