@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_nbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daelee <daelee@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: kicpark <kicpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/04 18:07:52 by daelee            #+#    #+#             */
-/*   Updated: 2020/09/16 11:56:29 by daelee           ###   ########.fr       */
+/*   Created: 2021/04/22 13:16:49 by kicpark           #+#    #+#             */
+/*   Updated: 2021/04/22 13:17:04 by kicpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,26 @@ int			put_minus2(int buf_len, t_info *info, char **buf)
 int			put_prec_str(unsigned long long nbr, t_info *info, char **buf)
 {
 	int		buf_len;
-	int		ret;
+	int		res;
 	int		i;
 
 	buf_len = ft_nbrlen(nbr, info);
-	ret = (info->prec > buf_len) ? info->prec : buf_len;
-	if (!(*buf = (char *)malloc(sizeof(char) * ret + 1)))
+	res = (info->prec > buf_len) ? info->prec : buf_len;
+	if (!(*buf = (char *)malloc(sizeof(char) * res + 1)))
 		return (0);
 	i = 0;
-	(*buf)[ret] = '\0';
-	while (buf_len + i < ret)
+	(*buf)[res] = '\0';
+	while (buf_len + i < res)
 	{
 		(*buf)[i] = '0';
 		i++;
 	}
 	i = 1;
 	if (nbr == 0 && info->prec != 0)
-		(*buf)[ret - i] = '0';
+		(*buf)[res - i] = '0';
 	while (nbr)
 	{
-		(*buf)[ret - i] = ft_baseset(info->type)[nbr % info->nbr_base];
+		(*buf)[res - i] = ft_baseset(info->type)[nbr % info->nbr_base];
 		nbr /= info->nbr_base;
 		i++;
 	}
@@ -83,7 +83,7 @@ int			print_nbr(unsigned long long nbr, t_info *info)
 {
 	char	*buf;
 	int		buf_len;
-	int		ret;
+	int		res;
 
 	if (info->type == 'x' || info->type == 'X' || info->type == 'p')
 		info->nbr_base = 16;
@@ -96,9 +96,9 @@ int			print_nbr(unsigned long long nbr, t_info *info)
 	buf_len += put_minus(info, &buf);
 	if (info->type == 'p')
 		buf_len = put_pointer_prefix(&buf);
-	ret = put_width_str(&buf, info);
-	ret += put_minus2(buf_len, info, &buf);
+	res = put_width_str(&buf, info);
+	res += put_minus2(buf_len, info, &buf);
 	ft_putstr(buf);
 	free(buf);
-	return (ret);
+	return (res);
 }
