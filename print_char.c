@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kicpark <kicpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/02 14:15:31 by daelee            #+#    #+#             */
-/*   Updated: 2021/04/22 13:17:05 by kicpark          ###   ########.fr       */
+/*   Created: 2021/04/22 14:19:18 by kicpark           #+#    #+#             */
+/*   Updated: 2021/04/22 14:22:07 by kicpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 int			print_char(int c, t_info *info)
 {
-	int		ret;
+	int		res;
 
-	ret = 0;
+	res = 0;
 	if (info->type == '%' && info->minus == 1)
 		info->zero = 0;
 	if (info->minus == 1)
-		ret += ft_putchar(c);
-	ret += put_width(info->width, 1, info->zero);
+		res += ft_putchar(c);
+	res += put_width(info->width, 1, info->zero);
 	if (info->minus == 0)
-		ret += ft_putchar(c);
-	return (ret);
+		res += ft_putchar(c);
+	return (res);
 }
 
 int			put_width(int width, int len, int zero)
 {
-	int		ret;
+	int		res;
 
-	ret = 0;
+	res = 0;
 	while (len < width)
 	{
 		if (zero == 1)
@@ -39,7 +39,7 @@ int			put_width(int width, int len, int zero)
 		else
 			ft_putchar(' ');
 		len++;
-		ret++;
+		res++;
 	}
-	return (ret);
+	return (res);
 }

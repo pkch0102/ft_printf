@@ -6,7 +6,7 @@
 /*   By: kicpark <kicpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:16:54 by kicpark           #+#    #+#             */
-/*   Updated: 2021/04/22 13:17:04 by kicpark          ###   ########.fr       */
+/*   Updated: 2021/04/22 14:22:05 by kicpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,17 @@ int			put_width_str(char **buf, t_info *info)
 
 int			print_string(char *str, t_info *info)
 {
-	int		ret;
+	int		res;
 	char	*buf;
 
-	ret = 0;
+	res = 0;
 	if (str == NULL)
 		str = "(null)";
 	if (info->prec == -1 || (size_t)info->prec > ft_strlen(str))
 		info->prec = ft_strlen(str);
 	buf = parse_buf(str, info->prec, ft_strlen(str));
-	ret = put_width_str(&buf, info);
+	res = put_width_str(&buf, info);
 	ft_putstr(buf);
 	free(buf);
-	return (ret);
+	return (res);
 }
